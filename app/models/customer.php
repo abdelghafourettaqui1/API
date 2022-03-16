@@ -44,8 +44,10 @@ class customer extends Connection
     {
         $this->connect()->query("DELETE FROM `customers` WHERE `customer_id`= $customer_id");
     }
-    public function update($customer_id, $customer_name,  $customer_email, $customer_contact, $customer_address, $country)
+
+    public function update($customer_name,$customer_email,$customer_contact,$customer_address, $country,$customer_id)
     {
-        $this->connect()->query("UPDATE `customers` SET `customer_name` = '$customer_name', `customer_email` = '$customer_email' ,`customer_contact` = '$customer_contact',`customer_address` = '$customer_address',`country` = '$country' WHERE `customers`.`customer_id`='$customer_id'");
+        $id = intval($customer_id);
+        $this->connect()->query("UPDATE `customers` SET `customer_name` = '$customer_name',`customer_email` = '$customer_email' ,`customer_contact` = '$customer_contact', `customer_address` = '$customer_address',`country` = '$country' WHERE `customer_id`=$id");
     }
 }

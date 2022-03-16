@@ -9,7 +9,6 @@ class customers extends controller
         $this->model = $this->model('customer');
         $customer = $this->model->getALLcustomer();
         if ($customer != NULL) {
-
             echo json_encode($customer);
         } else {
             http_response_code(404);
@@ -42,13 +41,14 @@ class customers extends controller
     {
         require_once '../app/controllers/headers.php';
 
-        $data = json_decode(file_get_contents("php://input"));
-        $customer_name = $data->customer_name;
-        $customer_email = $data->customer_email;
-        $customer_contact = $data->customer_contact;
-        $customer_address = $data->customer_address;
-        $country = $data->country;
+        // $data = json_decode(file_get_contents("php://input"));
+        $data = $_POST;
         if ($data != NULL) {
+            $customer_name = $data['customer_name'];
+            $customer_email = $data['customer_email'];
+            $customer_contact = $data['customer_contact'];
+            $customer_address = $data['customer_address'];
+            $country = $data['country'];
             $this->model = $this->model('customer');
             $this->model->insertcustomer($customer_name, $customer_email, $customer_contact, $customer_address, $country);
 
@@ -61,26 +61,30 @@ class customers extends controller
     {
         require_once '../app/controllers/headers.php';
 
-        $data = json_decode(file_get_contents("php://input"));
-        $customer_id = $data->customer_id;
-        $customer_name = $data->customer_name;
-        $customer_email = $data->customer_email;
-        $customer_contact = $data->customer_contact;
-        $customer_address = $data->customer_address;
-        $country = $data->country;
+        // $data = json_decode(file_get_contents("php://input"));
         
-        if ($customer_id != NULL) {
+        // print_r($_POST);
+        // die;
+        $data =$_POST ;
+        if (!empty($data)) {
+            $customer_id = $data['customer_id'];
+            $customer_name = $data['customer_name'];
+            $customer_email = $data['customer_email'];
+            $customer_contact = $data['customer_contact'];
+            $customer_address = $data['customer_address'];
+            $country = $data['country'];
             $this->model = $this->model('customer');
             $this->model->update($customer_name, $customer_email, $customer_contact, $customer_address, $country, $customer_id);
             echo json_encode(['meesage' => 'Customer data updated.']);
+        }
+        else {
+            echo json_encode(['meesage' => 'Employee could not be updated.']);
         }
     }
     public function delete()
     {
         require_once '../app/controllers/headers.php';
-
-        $data = json_decode(file_get_contents("php://input"));
-        $customer_id = $data->id;
+        $customer_id = $_GET['id'];
         if ($customer_id != NULL) {
             $this->model = $this->model('customer');
             $this->model->delete($customer_id);

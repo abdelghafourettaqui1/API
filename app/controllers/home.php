@@ -1,6 +1,6 @@
 <?php
 
-class home extends controller{
+class home extends controller {
 
     public function index( $name=''){
       $user=$this->model('user');
